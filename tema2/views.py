@@ -22,3 +22,19 @@ def name_list(request: HttpRequest):
             return HttpResponse("List received!", status=201)
         except Exception as e:
             return HttpResponse(str(e), status=400)
+
+@csrf_exempt
+@require_http_methods(["POST"])
+def age_list(request: HttpRequest):
+    if request.method == "POST":
+        try:
+            list_of_ages = []
+            list_of_ages.clear()
+            data = json.loads(request.body)
+            list_of_ages = data['list_age']
+            print(list_of_ages)
+            return HttpResponse("List of ages received!", status=201)
+        except Exception as e:
+            return HttpResponse(str(e),status=400)
+
+

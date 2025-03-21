@@ -4,7 +4,7 @@ from django.http import HttpRequest,HttpResponse
 from django.views.decorators.csrf import csrf_exempt
 from django.views.decorators.http import require_http_methods
 
-list_of_names = []
+
 
 def home(request):
     return HttpResponse("OK")
@@ -14,6 +14,7 @@ def home(request):
 def name_list(request: HttpRequest):
     if request.method == "POST":
         try:
+            list_of_names = []
             list_of_names.clear()
             data = json.loads(request.body)
             list_of_names = data['list']

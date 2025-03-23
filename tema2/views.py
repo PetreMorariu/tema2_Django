@@ -44,14 +44,17 @@ def age_list(request):
 @require_http_methods(["GET"])
 def combine_name_with_age(request):
     if request.method == 'GET':
-        try:
-            list_combined.clear()
-            for name, age in zip(list_of_names, list_of_ages):
-                my_dict = {'name': name, 'age': age}
-                list_combined.append(my_dict)
-            return JsonResponse(list_combined, safe=False)
-        except Exception as e:
-            return HttpResponse(str(e), status=400)
+        # if len(list_of_names) == len(list_of_age):
+            try:
+                list_combined.clear()
+                for name, age in zip(list_of_names, list_of_ages):
+                    my_dict = {'name': name, 'age': age}
+                    list_combined.append(my_dict)
+                return JsonResponse(list_combined, safe=False)
+            except Exception as e:
+                return HttpResponse(str(e), status=400)
+        # else:
+        #     return HttpResponse("Name list and Age list do not have the same number of elements!")
 
 @csrf_exempt
 @require_http_methods(["GET"])
@@ -59,10 +62,10 @@ def person_of_age(request):
     if request.method == 'GET':
         try:
            list_of_age.clear()
-           for name, age in zip(list_of_names,list_of_ages):
-               if int(list_of_ages[age]) >= 18:
-                    my_dict = {'name': name, 'age': age}
-                    list_combined.append(my_dict)
+           for p in list_combined:
+               if p['age'] >= 18:
+                   my_dict = {'name': p['name'], 'age': p['age']}
+                   list_of_ages.append(my_dict)
            return JsonResponse(list_of_ages, safe=False)
         except Exception as e:
             return HttpResponse(str(e),status=400)

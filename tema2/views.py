@@ -22,7 +22,7 @@ def name_list(request):
             list_of_names.clear()
             list_of_names.extend(names)
             print(list_of_names)
-            return HttpResponse("List received!", status=201)
+            return HttpResponse("List of names received!", status=201)
         except Exception as e:
             return HttpResponse(str(e), status=400)
 

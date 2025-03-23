@@ -54,18 +54,19 @@ def combine_name_with_age(request):
             except Exception as e:
                 return HttpResponse(str(e), status=400)
         # else:
-        #     return HttpResponse("Name list and Age list do not have the same number of elements!")
+        #     return HttpResponse("The received list for name and age do not have the same number of elements!")
+
 
 @csrf_exempt
 @require_http_methods(["GET"])
 def person_of_age(request):
     if request.method == 'GET':
         try:
-           list_of_age.clear()
-           for p in list_combined:
-               if p['age'] >= 18:
-                   my_dict = {'name': p['name'], 'age': p['age']}
-                   list_of_ages.append(my_dict)
-           return JsonResponse(list_of_ages, safe=False)
+            list_of_ages.clear()
+            list_of_ages.extend([
+                {'name': p['name'], 'age': p['age']}
+                for p in list_combined if p['age'] >= 18
+            ])
+            return JsonResponse(list_of_ages, safe=False)
         except Exception as e:
-            return HttpResponse(str(e),status=400)
+            return HttpResponse(str(e), status=400)

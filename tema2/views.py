@@ -7,7 +7,7 @@ from django.views.decorators.http import require_http_methods
 list_of_names = []
 list_of_ages = []
 list_combined = []
-list_of_age = []
+list_of_18 = []
 
 def home(request):
     return HttpResponse("OK")
@@ -44,7 +44,7 @@ def age_list(request):
 @require_http_methods(["GET"])
 def combine_name_with_age(request):
     if request.method == 'GET':
-        # if len(list_of_names) == len(list_of_age):
+        if len(list_of_names) == len(list_of_ages):
             try:
                 list_combined.clear()
                 for name, age in zip(list_of_names, list_of_ages):
@@ -53,8 +53,8 @@ def combine_name_with_age(request):
                 return JsonResponse(list_combined, safe=False)
             except Exception as e:
                 return HttpResponse(str(e), status=400)
-        # else:
-        #     return HttpResponse("The received list for name and age do not have the same number of elements!")
+        else:
+            return HttpResponse("The received list for name and age do not have the same number of elements!")
 
 
 @csrf_exempt
@@ -62,11 +62,11 @@ def combine_name_with_age(request):
 def person_of_age(request):
     if request.method == 'GET':
         try:
-            list_of_ages.clear()
-            list_of_ages.extend([
+            list_of_18.clear()
+            list_of_18.extend([
                 {'name': p['name'], 'age': p['age']}
                 for p in list_combined if p['age'] >= 18
             ])
-            return JsonResponse(list_of_ages, safe=False)
+            return JsonResponse(list_of_18, safe=False)
         except Exception as e:
             return HttpResponse(str(e), status=400)
